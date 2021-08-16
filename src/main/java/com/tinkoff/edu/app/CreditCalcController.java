@@ -7,8 +7,12 @@ public class CreditCalcController {
     /**
      * TODO Validates and logs request
      */
-    public static int createRequest() {
-        CreditCalcLogger.log();
-        return CreditCalcService.createRequest();
+    CreditCalcLogger creditCalcLogger = new CreditCalcLogger();
+
+    CreditCalcService creditCalcService = new CreditCalcService();
+
+    public int createRequest(CreditRequest creditRequest) {
+        creditCalcLogger.log(creditRequest);
+        return creditCalcService.createRequest(creditRequest);
     }
 }

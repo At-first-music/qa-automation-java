@@ -9,8 +9,9 @@ public class CreditCalcRepository {
     /**
      *  TODO make persists request
      * @return Request Id
+     * @param creditRequest - object with  ClientType, months and amount
      */
-    public static int save() {
+    public int save(CreditRequest creditRequest) {
         return ++requestId;
     }
 }

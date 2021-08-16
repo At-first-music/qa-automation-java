@@ -7,7 +7,10 @@ public class CreditCalcService {
     /**
      * TODO Loan calculation
      */
-    public static int createRequest() {
-        return CreditCalcRepository.save();
+
+    CreditCalcRepository creditCalcRepository = new CreditCalcRepository();
+
+    public int createRequest(CreditRequest creditRequest) {
+        return creditCalcRepository.save(creditRequest);
     }
 }
