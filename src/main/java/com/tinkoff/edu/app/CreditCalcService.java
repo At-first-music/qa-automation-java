@@ -9,10 +9,8 @@ public class CreditCalcService {
     /**
      * TODO Loan calculation
      */
-
-    CreditCalcRepository creditCalcRepository = new CreditCalcRepository();
-
     public CreditResponse createRequest(CreditRequest creditRequest) {
-        return new CreditResponse(creditCalcRepository.save(creditRequest), CONFIRM_REQUEST, creditRequest);
+        CreditCalcRepository creditCalcRepository = new CreditCalcRepository();
+        return new CreditResponse(creditCalcRepository.save(), CONFIRM_REQUEST, creditRequest);
     }
 }
