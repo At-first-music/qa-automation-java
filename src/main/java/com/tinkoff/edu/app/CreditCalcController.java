@@ -8,11 +8,11 @@ import static com.tinkoff.edu.app.CreditCalcLogger.log;
 public class CreditCalcController {
     /**
      * TODO Validates and logs request
+     * @return creditRequest with ResponseType
      */
     public CreditResponse createRequest(CreditRequest creditRequest) {
-        CreditCalcService creditCalcService = new CreditCalcService();
 
         log(creditRequest);
-        return creditCalcService.createRequest(creditRequest);
+        return new CreditCalcService().createRequest(creditRequest);
     }
 }

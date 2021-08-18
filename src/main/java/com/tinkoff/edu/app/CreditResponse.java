@@ -6,10 +6,14 @@ public class CreditResponse {
     private ResponseType responseType;
     private CreditRequest creditRequest;
 
-    public CreditResponse(int requestId, ResponseType responseType, CreditRequest creditRequest) {
-        this.requestId = requestId;
-        this.responseType = responseType;
+    public CreditResponse(CreditRequest creditRequest) {
+        ++this.requestId;
         this.creditRequest = creditRequest;
+    }
+
+    public CreditResponse setResponseType(ResponseType responseType) {
+        this.responseType = responseType;
+        return this;
     }
 
     @Override

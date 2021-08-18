@@ -8,9 +8,9 @@ import static com.tinkoff.edu.app.ResponseType.*;
 public class CreditCalcService {
     /**
      * TODO Loan calculation
+     * @return creditRequest with ResponseType
      */
     public CreditResponse createRequest(CreditRequest creditRequest) {
-        CreditCalcRepository creditCalcRepository = new CreditCalcRepository();
-        return new CreditResponse(creditCalcRepository.save(), CONFIRM_REQUEST, creditRequest);
+        return new CreditCalcRepository().save(creditRequest).setResponseType(CONFIRM_REQUEST);
     }
 }
