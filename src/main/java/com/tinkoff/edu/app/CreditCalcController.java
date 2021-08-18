@@ -9,10 +9,10 @@ public class CreditCalcController {
      */
     CreditCalcLogger creditCalcLogger = new CreditCalcLogger();
 
-    CreditCalcService creditCalcService = new CreditCalcService();
+    public CreditResponse createRequest(CreditRequest creditRequest) {
+        CreditCalcService creditCalcService = new CreditCalcService();
 
-    public int createRequest(CreditRequest creditRequest) {
-        creditCalcLogger.log(creditRequest);
+        CreditCalcLogger.log(creditRequest);
         return creditCalcService.createRequest(creditRequest);
     }
 }

@@ -8,7 +8,7 @@ public class CreditCalcLogger {
      * TODO make logs for Credit Controller calls
      * @param creditRequest - object with  ClientType, months and amount
      */
-    public void log(CreditRequest creditRequest) {
+    public static void log(CreditRequest creditRequest) {
         System.out.println("Log calls..." + creditRequest);
     }
 }

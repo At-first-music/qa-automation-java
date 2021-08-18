@@ -1,5 +1,7 @@
 package com.tinkoff.edu.app;
 
+import static com.tinkoff.edu.app.ResponseType.*;
+
 /**
  * Credit calculation
  */
@@ -10,7 +12,7 @@ public class CreditCalcService {
 
     CreditCalcRepository creditCalcRepository = new CreditCalcRepository();
 
-    public int createRequest(CreditRequest creditRequest) {
-        return creditCalcRepository.save(creditRequest);
+    public CreditResponse createRequest(CreditRequest creditRequest) {
+        return new CreditResponse(creditCalcRepository.save(creditRequest), CONFIRM_REQUEST, creditRequest);
     }
 }

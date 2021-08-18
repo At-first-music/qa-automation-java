@@ -3,15 +3,13 @@ package com.tinkoff.edu.app;
 public class CreditResponse {
 
     private int requestId;
-
     private ResponseType responseType;
+    private CreditRequest creditRequest;
 
-    CreditRequest creditRequest;
-
-    public CreditResponse(int requestId, ResponseType responseType, Object creditRequest) {
+    public CreditResponse(int requestId, ResponseType responseType, CreditRequest creditRequest) {
         this.requestId = requestId;
         this.responseType = responseType;
-        this.creditRequest = (CreditRequest) creditRequest;
+        this.creditRequest = creditRequest;
     }
 
     @Override

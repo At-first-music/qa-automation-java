@@ -3,9 +3,7 @@ package com.tinkoff.edu.app;
 public class CreditRequest {
 
     private ClientType clientType;
-
     private final int months;
-
     private final int amount;
 
     public CreditRequest (ClientType clientType, int months, int amount) {
