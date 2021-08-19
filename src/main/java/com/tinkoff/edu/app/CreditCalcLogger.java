@@ -6,8 +6,9 @@ package com.tinkoff.edu.app;
 public class CreditCalcLogger {
     /**
      * TODO make logs for Credit Controller calls
+     * @param creditRequest - object with  ClientType, months and amount
      */
-    public static void log() {
-        System.out.println("Log calls...");
+    public static void log(CreditRequest creditRequest) {
+        System.out.println("Log calls..." + creditRequest);
     }
 }
