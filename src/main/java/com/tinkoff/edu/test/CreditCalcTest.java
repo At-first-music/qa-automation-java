@@ -9,7 +9,7 @@ import static com.tinkoff.edu.app.ClientType.*;
  */
 public class CreditCalcTest {
     public static void main(String... args) {
-        CreditCalcController creditCalcController = new CreditCalcController();
+        CreditCalcController creditCalcController = new CreditCalcController(new StaticCreditCalcService(new StaticCreditCalcRepository()));
 
         CreditRequest creditRequest = new CreditRequest(IP, 10, 100);
 
