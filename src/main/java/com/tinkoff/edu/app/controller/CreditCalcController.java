@@ -1,6 +1,10 @@
-package com.tinkoff.edu.app;
+package com.tinkoff.edu.app.controller;
 
-import static com.tinkoff.edu.app.CreditCalcLogger.log;
+import com.tinkoff.edu.app.service.CreditCalcService;
+import com.tinkoff.edu.app.models.CreditRequest;
+import com.tinkoff.edu.app.models.CreditResponse;
+
+import static com.tinkoff.edu.app.logger.CreditCalcLogger.log;
 
 /**
  * Controller for credit calculation
@@ -17,7 +21,6 @@ public class CreditCalcController {
      * @return creditRequest with ResponseType
      */
     public CreditResponse createRequest(CreditRequest creditRequest) {
-
         log(creditRequest);
         return creditCalcService.createRequest(creditRequest);
     }

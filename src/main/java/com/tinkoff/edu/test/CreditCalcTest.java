@@ -1,8 +1,11 @@
 package com.tinkoff.edu.test;
 
-import com.tinkoff.edu.app.*;
+import com.tinkoff.edu.app.controller.CreditCalcController;
+import com.tinkoff.edu.app.models.CreditRequest;
+import com.tinkoff.edu.app.repository.StaticCreditCalcRepository;
+import com.tinkoff.edu.app.service.StaticCreditCalcService;
 
-import static com.tinkoff.edu.app.ClientType.*;
+import static com.tinkoff.edu.app.enums.ClientType.*;
 
 /**
  * Credit Calc Test

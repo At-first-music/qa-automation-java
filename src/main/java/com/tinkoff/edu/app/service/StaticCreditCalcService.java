@@ -1,11 +1,15 @@
-package com.tinkoff.edu.app;
+package com.tinkoff.edu.app.service;
 
-import static com.tinkoff.edu.app.ResponseType.*;
+import com.tinkoff.edu.app.models.CreditRequest;
+import com.tinkoff.edu.app.models.CreditResponse;
+import com.tinkoff.edu.app.repository.CreditCalcRepository;
+
+import static com.tinkoff.edu.app.enums.ResponseType.*;
 
 /**
  * Credit calculation
  */
-public class StaticCreditCalcService implements CreditCalcService{
+public class StaticCreditCalcService implements CreditCalcService {
     private CreditCalcRepository creditCalcRepository;
 
     public StaticCreditCalcService(CreditCalcRepository creditCalcRepository) {

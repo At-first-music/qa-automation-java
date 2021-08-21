@@ -1,4 +1,7 @@
-package com.tinkoff.edu.app;
+package com.tinkoff.edu.app.repository;
+
+import com.tinkoff.edu.app.models.CreditRequest;
+import com.tinkoff.edu.app.models.CreditResponse;
 
 /**
  * Save results of calculation

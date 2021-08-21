@@ -1,4 +1,6 @@
-package com.tinkoff.edu.app;
+package com.tinkoff.edu.app.logger;
+
+import com.tinkoff.edu.app.models.CreditRequest;
 
 /**
  * Log calls Credit Controller

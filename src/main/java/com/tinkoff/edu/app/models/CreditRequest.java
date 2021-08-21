@@ -1,4 +1,6 @@
-package com.tinkoff.edu.app;
+package com.tinkoff.edu.app.models;
+
+import com.tinkoff.edu.app.enums.ClientType;
 
 public class CreditRequest {
 
