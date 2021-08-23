@@ -9,10 +9,10 @@ import static com.tinkoff.edu.app.enums.ResponseType.*;
 /**
  * Credit calculation
  */
-public class StaticCreditCalcService implements CreditCalcService {
+public class DefaultCreditCalcService implements CreditCalcService {
     private CreditCalcRepository creditCalcRepository;
 
-    public StaticCreditCalcService(CreditCalcRepository creditCalcRepository) {
+    public DefaultCreditCalcService(CreditCalcRepository creditCalcRepository) {
         this.creditCalcRepository = creditCalcRepository;
     }
 

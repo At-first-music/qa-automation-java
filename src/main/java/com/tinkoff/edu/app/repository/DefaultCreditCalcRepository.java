@@ -6,7 +6,7 @@ import com.tinkoff.edu.app.models.CreditResponse;
 /**
  * Save results of calculation
  */
-public class StaticCreditCalcRepository implements CreditCalcRepository {
+public class DefaultCreditCalcRepository implements CreditCalcRepository {
 
     /**
      *  TODO make persists request
