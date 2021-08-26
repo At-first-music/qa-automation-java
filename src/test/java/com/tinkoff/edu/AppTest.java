@@ -2,14 +2,13 @@ package com.tinkoff.edu;
 
 import com.tinkoff.edu.app.controller.CreditCalcController;
 import com.tinkoff.edu.app.models.CreditRequest;
-import com.tinkoff.edu.app.models.CreditResponse;
 import com.tinkoff.edu.app.repository.DefaultCreditCalcRepository;
 import com.tinkoff.edu.app.service.DefaultCreditCalcService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static com.tinkoff.edu.app.enums.ClientType.*;
-import static com.tinkoff.edu.app.enums.ResponseType.CONFIRM_REQUEST;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AppTest {
@@ -23,17 +22,15 @@ public class AppTest {
     }
 
     @Test
-    public void shouldCorrectRequest() {
+    @DisplayName("Проверка значения requestId при первом вызове CreditCalcController")
+    public void shouldGetId1WhenFirstCall() {
         // Given
         creditRequest = new CreditRequest(IP, 10, 100);
 
-        //When
+        // When
+        int requestIdResult = creditCalcController.createRequest(creditRequest).getRequestId();
 
-        //Then
-        assertEquals("CreditResponse {" +
-              "requestId=" + 1 +
-              ", responseType=" + CONFIRM_REQUEST +
-              ", CreditRequest=" + creditRequest +
-              " }", String.valueOf(creditCalcController.createRequest(creditRequest)));
+        // Then
+        assertEquals(1, requestIdResult, "При первом вызове requestId должен быть = 1");
     }
 }

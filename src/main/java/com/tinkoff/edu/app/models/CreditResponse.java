@@ -13,6 +13,10 @@ public class CreditResponse {
         this.creditRequest = creditRequest;
     }
 
+    public int getRequestId() {
+        return requestId;
+    }
+
     public CreditResponse setResponseType(ResponseType responseType) {
         this.responseType = responseType;
         return this;
