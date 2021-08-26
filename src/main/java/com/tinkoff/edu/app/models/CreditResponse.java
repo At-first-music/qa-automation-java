@@ -8,9 +8,13 @@ public class CreditResponse {
     private ResponseType responseType;
     private CreditRequest creditRequest;
 
-    public CreditResponse(CreditRequest creditRequest) {
-        ++this.requestId;
+    public CreditResponse(CreditRequest creditRequest, int requestId) {
+        this.requestId = requestId;
         this.creditRequest = creditRequest;
+    }
+
+    public int getRequestId() {
+        return requestId;
     }
 
     public CreditResponse setResponseType(ResponseType responseType) {
