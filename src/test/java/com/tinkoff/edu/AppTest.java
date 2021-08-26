@@ -33,4 +33,19 @@ public class AppTest {
         // Then
         assertEquals(1, requestIdResult, "При первом вызове requestId должен быть = 1");
     }
+
+    @Test
+    @DisplayName("Проверка увеличения requestId при нескольких запросах")
+    public void  shouldGetIncrementIdWithSeveralCalls() {
+        // Given
+        creditRequest = new CreditRequest(OOO, 4, 1_000);
+        CreditRequest creditRequest1 = new CreditRequest(PERSON, 9, 800);
+
+        // When
+        creditCalcController.createRequest(creditRequest);
+        int requestIdResult = creditCalcController.createRequest(creditRequest1).getRequestId();
+
+        // Then
+        assertEquals(2, requestIdResult, "При повторном вызове requestId  = 2");
+    }
 }
