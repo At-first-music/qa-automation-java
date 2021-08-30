@@ -4,6 +4,10 @@ import com.tinkoff.edu.app.enums.ClientType;
 
 public class CreditRequest {
 
+    public ClientType getClientType() {
+        return clientType;
+    }
+
     private ClientType clientType;
     private final int months;
     private final int amount;
