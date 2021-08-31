@@ -22,6 +22,10 @@ public class CreditRequest {
         return months;
     }
 
+    public ClientType getClientType() {
+        return clientType;
+    }
+
     @Override
     public String toString() {
         return "CreditRequest {" +

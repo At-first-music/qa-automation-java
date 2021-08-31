@@ -2,6 +2,8 @@ package com.tinkoff.edu.app.models;
 
 import com.tinkoff.edu.app.enums.ResponseType;
 
+import java.util.Objects;
+
 public class CreditResponse {
 
     private int requestId;
@@ -13,8 +15,21 @@ public class CreditResponse {
         this.creditRequest = creditRequest;
     }
 
+    public CreditResponse(CreditRequest creditRequest) {
+        this.creditRequest = creditRequest;
+    }
+
     public int getRequestId() {
         return requestId;
+    }
+
+    public CreditResponse setRequestId(int requestId) {
+        this.requestId = requestId;
+        return this;
+    }
+
+    public ResponseType getResponseType() {
+        return responseType;
     }
 
     public CreditResponse setResponseType(ResponseType responseType) {
@@ -29,5 +44,24 @@ public class CreditResponse {
                 ", responseType=" + responseType +
                 ", CreditRequest=" + creditRequest +
                 " }";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        CreditResponse that = (CreditResponse) o;
+        return requestId == that.requestId &&
+                responseType == that.responseType &&
+                Objects.equals(creditRequest, that.creditRequest);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(requestId, responseType, creditRequest);
     }
 }

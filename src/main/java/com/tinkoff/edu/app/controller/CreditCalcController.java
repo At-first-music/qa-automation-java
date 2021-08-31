@@ -4,6 +4,7 @@ import com.tinkoff.edu.app.service.CreditCalcService;
 import com.tinkoff.edu.app.models.CreditRequest;
 import com.tinkoff.edu.app.models.CreditResponse;
 
+import static com.tinkoff.edu.app.enums.ResponseType.*;
 import static com.tinkoff.edu.app.logger.CreditCalcLogger.log;
 
 /**
@@ -21,6 +22,14 @@ public class CreditCalcController {
      * @return creditRequest with ResponseType
      */
     public CreditResponse createRequest(CreditRequest creditRequest) {
+        if (creditRequest == null || creditRequest.getClientType() == null) {
+            return new CreditResponse(creditRequest).setRequestId(-1).setResponseType(REJECTED);
+        }
+
+        if (creditRequest.getAmount() <= 0 || creditRequest.getMonths() <= 0) {
+            return new CreditResponse(creditRequest).setRequestId(-1).setResponseType(REJECTED);
+        }
+
         log(creditRequest);
         return creditCalcService.createRequest(creditRequest);
     }
