@@ -52,10 +52,9 @@ public class AppTest {
     public void shouldRejectedResponseWithIPClientType() {
         // When
         creditRequest = new CreditRequest(IP, 10, 1_000);
-        creditResponse = new CreditResponse(creditRequest);
 
         // Then
-        assertEquals(creditResponse.setResponseType(REJECTED), creditCalcController.createRequest(creditRequest), "Заявка должна быть отклонена");
+        assertEquals(REJECTED, creditCalcController.createRequest(creditRequest).getResponseType(), "Заявка должна быть отклонена");
     }
 
     @Test
@@ -63,10 +62,9 @@ public class AppTest {
     public void shouldRejectedResponseWithOOOClientTypeAndIncorrectAmount() {
         // When
         creditRequest = new CreditRequest(OOO, 10, 10_000);
-        creditResponse = new CreditResponse(creditRequest);
 
         // Then
-        assertEquals(creditResponse.setResponseType(REJECTED), creditCalcController.createRequest(creditRequest), "Заявка должна быть отклонена");
+        assertEquals(REJECTED, creditCalcController.createRequest(creditRequest).getResponseType(), "Заявка должна быть отклонена");
     }
 
     @Test
@@ -74,10 +72,9 @@ public class AppTest {
     public void shouldRejectedResponseWithOOOClientTypeAndIncorrectMonths() {
         // When
         creditRequest = new CreditRequest(OOO, 12, 10_100);
-        creditResponse = new CreditResponse(creditRequest);
 
         // Then
-        assertEquals(creditResponse.setResponseType(REJECTED), creditCalcController.createRequest(creditRequest), "Заявка должна быть отклонена");
+        assertEquals(REJECTED, creditCalcController.createRequest(creditRequest).getResponseType(), "Заявка должна быть отклонена");
     }
 
     @Test
@@ -85,21 +82,19 @@ public class AppTest {
     public void shouldApprovedResponseWithOOOClientType() {
         // When
         creditRequest = new CreditRequest(OOO, 11, 10_100);
-        creditResponse = new CreditResponse(creditRequest, 1);
 
         // Then
-        assertEquals(creditResponse.setResponseType(CONFIRM_REQUEST), creditCalcController.createRequest(creditRequest), "Заявка должна быть принята");
+        assertEquals(CONFIRM_REQUEST, creditCalcController.createRequest(creditRequest).getResponseType(), "Заявка должна быть принята");
     }
 
     @Test
-    @DisplayName("Проверка отклонения заявки, если тип клиента = PERSON и amount <= 10_000 и months <= 12")
+    @DisplayName("Проверка принятия заявки, если тип клиента = PERSON и amount <= 10_000 и months <= 12")
     public void shouldApprovedResponseWithPERSONClientType() {
         // When
         creditRequest = new CreditRequest(PERSON, 12, 10_000);
-        creditResponse = new CreditResponse(creditRequest, 1);
 
         // Then
-        assertEquals(creditResponse.setResponseType(CONFIRM_REQUEST), creditCalcController.createRequest(creditRequest), "Заявка должна быть принята");
+        assertEquals(CONFIRM_REQUEST, creditCalcController.createRequest(creditRequest).getResponseType(), "Заявка должна быть принята");
     }
 
     @Test
@@ -107,10 +102,9 @@ public class AppTest {
     public void shouldRejectedResponseWithPERSONClientTypeAndIncorrectMonths() {
         // When
         creditRequest = new CreditRequest(PERSON, 13, 10_000);
-        creditResponse = new CreditResponse(creditRequest);
 
         // Then
-        assertEquals(creditResponse.setResponseType(REJECTED), creditCalcController.createRequest(creditRequest), "Заявка должна быть отклонена");
+        assertEquals(REJECTED, creditCalcController.createRequest(creditRequest).getResponseType(), "Заявка должна быть отклонена");
     }
 
     @Test
@@ -118,20 +112,18 @@ public class AppTest {
     public void shouldRejectedResponseWithPERSONClientTypeAndIncorrectAmount() {
         // When
         creditRequest = new CreditRequest(PERSON, 12, 100_000);
-        creditResponse = new CreditResponse(creditRequest);
 
         // Then
-        assertEquals(creditResponse.setResponseType(REJECTED), creditCalcController.createRequest(creditRequest), "Заявка должна быть отклонена");
+        assertEquals(REJECTED, creditCalcController.createRequest(creditRequest).getResponseType(), "Заявка должна быть отклонена");
     }
 
     @Test
     @DisplayName("Проверка получения исключения, если creditRequest == null")
     public void shouldGetErrorWhenApplyNullRequest() {
         // When
-        creditResponse = new CreditResponse(null, -1);
 
         // Then
-        assertEquals(creditResponse.setResponseType(REJECTED), creditCalcController.createRequest(null), "Заявка отклонена, requestId = -1");
+        assertEquals(-1, creditCalcController.createRequest(null).getRequestId(), "Заявка отклонена, requestId = -1");
     }
 
     @Test
@@ -139,10 +131,9 @@ public class AppTest {
     public void shouldGetErrorWithIncorrectAmount() {
         // When
         creditRequest = new CreditRequest(PERSON, 12, 0);
-        creditResponse = new CreditResponse(creditRequest, -1);
 
         // Then
-        assertEquals(creditResponse.setResponseType(REJECTED), creditCalcController.createRequest(creditRequest), "Заявка отклонена, requestId = -1");
+        assertEquals(-1, creditCalcController.createRequest(creditRequest).getRequestId(), "Заявка отклонена, requestId = -1");
     }
 
     @Test
@@ -150,10 +141,9 @@ public class AppTest {
     public void shouldGetErrorWhenApplyZeroOrNegativeMonthsRequest() {
         // When
         creditRequest = new CreditRequest(PERSON, 0, 100);
-        creditResponse = new CreditResponse(creditRequest, -1);
 
         // Then
-        assertEquals(creditResponse.setResponseType(REJECTED), creditCalcController.createRequest(creditRequest), "Заявка отклонена, requestId = -1");
+        assertEquals(-1, creditCalcController.createRequest(creditRequest).getRequestId(), "Заявка отклонена, requestId = -1");
     }
 
     @Test
@@ -161,9 +151,8 @@ public class AppTest {
     public void shouldGetErrorWhenNullClientType() {
         // When
         creditRequest = new CreditRequest(null, 10, 100);
-        creditResponse = new CreditResponse(creditRequest, -1);
 
         // Then
-        assertEquals(creditResponse.setResponseType(REJECTED), creditCalcController.createRequest(creditRequest), "Заявка отклонена, requestId = -1");
+        assertEquals(-1, creditCalcController.createRequest(creditRequest).getRequestId(), "Заявка отклонена, requestId = -1");
     }
 }

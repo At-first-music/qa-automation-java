@@ -48,8 +48,12 @@ public class CreditResponse {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         CreditResponse that = (CreditResponse) o;
         return requestId == that.requestId &&
                 responseType == that.responseType &&

@@ -24,10 +24,11 @@ public class CreditCalcController {
      * @return creditRequest with ResponseType
      */
     public CreditResponse createRequest(CreditRequest creditRequest) {
-        if (creditRequest == null
-                || creditRequest.getAmount() <= 0
-                || creditRequest.getMonths() <= 0
-                || creditRequest.getClientType() == null) {
+        if (creditRequest == null || creditRequest.getClientType() == null) {
+            return new CreditResponse(creditRequest).setRequestId(-1).setResponseType(REJECTED);
+        }
+
+        if (creditRequest.getAmount() <= 0 || creditRequest.getMonths() <= 0) {
             return new CreditResponse(creditRequest).setRequestId(-1).setResponseType(REJECTED);
         }
 
