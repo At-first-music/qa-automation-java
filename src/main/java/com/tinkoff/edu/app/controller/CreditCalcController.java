@@ -1,11 +1,9 @@
 package com.tinkoff.edu.app.controller;
 
-import com.tinkoff.edu.app.enums.ClientType;
 import com.tinkoff.edu.app.service.CreditCalcService;
 import com.tinkoff.edu.app.models.CreditRequest;
 import com.tinkoff.edu.app.models.CreditResponse;
 
-import static com.tinkoff.edu.app.enums.ClientType.*;
 import static com.tinkoff.edu.app.enums.ResponseType.*;
 import static com.tinkoff.edu.app.logger.CreditCalcLogger.log;
 
@@ -30,34 +28,6 @@ public class CreditCalcController {
 
         if (creditRequest.getAmount() <= 0 || creditRequest.getMonths() <= 0) {
             return new CreditResponse(creditRequest).setRequestId(-1).setResponseType(REJECTED);
-        }
-
-        if (creditRequest.getClientType() == IP) {
-            log(creditRequest);
-            return new CreditResponse(creditRequest).setResponseType(REJECTED);
-        }
-
-        if (creditRequest.getClientType() == OOO) {
-            if (creditRequest.getAmount() <= 10_000) {
-                log(creditRequest);
-                return new CreditResponse(creditRequest).setResponseType(REJECTED);
-            } else if (creditRequest.getAmount() > 10_000 && creditRequest.getMonths() < 12) {
-                log(creditRequest);
-                return creditCalcService.createRequest(creditRequest);
-            } else {
-                log(creditRequest);
-                return new CreditResponse(creditRequest).setResponseType(REJECTED);
-            }
-        }
-
-        if (creditRequest.getClientType() == PERSON) {
-            if (creditRequest.getAmount() <= 10_000 && creditRequest.getMonths() <= 12) {
-                log(creditRequest);
-                return creditCalcService.createRequest(creditRequest);
-            } else {
-                log(creditRequest);
-                return new CreditResponse(creditRequest).setResponseType(REJECTED);
-            }
         }
 
         log(creditRequest);
