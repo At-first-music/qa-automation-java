@@ -8,8 +8,13 @@ import com.tinkoff.edu.app.models.CreditResponse;
  */
 public class DefaultCreditCalcRepository implements CreditCalcRepository {
     private int requestId;
+
+    @Override
+    public CreditResponse getCreditResponseFromUuid(String uuid) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
     /**
-     *  TODO make persists request
      * @return creditRequest
      */
     @Override

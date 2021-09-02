@@ -17,6 +17,10 @@ public class CreditCalcController {
         this.creditCalcService = creditCalcService;
     }
 
+    public CreditResponse getCreditResponseFromUuid(String uuid) {
+        return creditCalcService.getCreditResponseFromUuid(uuid);
+    }
+
     /**
      * TODO Validates and logs request
      * @return creditRequest with ResponseType

@@ -4,9 +4,7 @@ import com.tinkoff.edu.app.models.CreditRequest;
 import com.tinkoff.edu.app.models.CreditResponse;
 import com.tinkoff.edu.app.repository.CreditCalcRepository;
 
-import static com.tinkoff.edu.app.enums.ClientType.*;
 import static com.tinkoff.edu.app.enums.ResponseType.*;
-import static com.tinkoff.edu.app.logger.CreditCalcLogger.log;
 
 /**
  * Credit calculation
@@ -18,6 +16,11 @@ public class DefaultCreditCalcService implements CreditCalcService {
         this.creditCalcRepository = creditCalcRepository;
     }
 
+    @Override
+    public CreditResponse getCreditResponseFromUuid(String uuid) {
+        return creditCalcRepository.getCreditResponseFromUuid(uuid);
+    }
+
     /**
      * TODO Loan calculation
      * @return creditRequest with ResponseType
@@ -25,30 +28,20 @@ public class DefaultCreditCalcService implements CreditCalcService {
     @Override
     public CreditResponse createRequest(CreditRequest creditRequest) {
 
-        if (creditRequest.getClientType() == IP) {
-            log(creditRequest);
-            return new CreditResponse(creditRequest).setResponseType(REJECTED);
-        }
+        switch (creditRequest.getClientType()) {
+            case IP: return new CreditResponse(creditRequest).setResponseType(REJECTED);
 
-        if (creditRequest.getClientType() == OOO) {
-            if (creditRequest.getAmount() <= 10_000) {
-                log(creditRequest);
-                return new CreditResponse(creditRequest).setResponseType(REJECTED);
-            } else if (creditRequest.getAmount() > 10_000 && creditRequest.getMonths() < 12) {
-                log(creditRequest);
+            case PERSON: if (creditRequest.getAmount() <= 10_000 && creditRequest.getMonths() <= 12) {
                 return creditCalcRepository.save(creditRequest).setResponseType(CONFIRM_REQUEST);
             } else {
-                log(creditRequest);
                 return new CreditResponse(creditRequest).setResponseType(REJECTED);
             }
-        }
 
-        if (creditRequest.getClientType() == PERSON) {
-            if (creditRequest.getAmount() <= 10_000 && creditRequest.getMonths() <= 12) {
-                log(creditRequest);
+            case OOO: if (creditRequest.getAmount() <= 10_000) {
+                return new CreditResponse(creditRequest).setResponseType(REJECTED);
+            } else if (creditRequest.getAmount() > 10_000 && creditRequest.getMonths() < 12) {
                 return creditCalcRepository.save(creditRequest).setResponseType(CONFIRM_REQUEST);
             } else {
-                log(creditRequest);
                 return new CreditResponse(creditRequest).setResponseType(REJECTED);
             }
         }

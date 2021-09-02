@@ -3,12 +3,20 @@ package com.tinkoff.edu.app.models;
 import com.tinkoff.edu.app.enums.ResponseType;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class CreditResponse {
 
     private int requestId;
     private ResponseType responseType;
     private CreditRequest creditRequest;
+    private UUID creditRequestId;
+
+    public CreditResponse(int requestId, CreditRequest creditRequest, UUID creditRequestId) {
+        this.requestId = requestId;
+        this.creditRequest = creditRequest;
+        this.creditRequestId = creditRequestId;
+    }
 
     public CreditResponse(CreditRequest creditRequest, int requestId) {
         this.requestId = requestId;
@@ -35,6 +43,10 @@ public class CreditResponse {
     public CreditResponse setResponseType(ResponseType responseType) {
         this.responseType = responseType;
         return this;
+    }
+
+    public UUID getCreditRequestId() {
+        return creditRequestId;
     }
 
     @Override
