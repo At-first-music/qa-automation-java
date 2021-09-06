@@ -4,5 +4,6 @@ import com.tinkoff.edu.app.models.CreditRequest;
 import com.tinkoff.edu.app.models.CreditResponse;
 
 public interface CreditCalcRepository {
+    CreditResponse getCreditResponseByUuid(String uuid);
     CreditResponse save(CreditRequest creditRequest);
 }

@@ -8,8 +8,13 @@ import com.tinkoff.edu.app.models.CreditResponse;
  */
 public class DefaultCreditCalcRepository implements CreditCalcRepository {
     private int requestId;
+
+    @Override
+    public CreditResponse getCreditResponseByUuid(String uuid) {
+        throw new UnsupportedOperationException("This class have not saving responses");
+    }
+
     /**
-     *  TODO make persists request
      * @return creditRequest
      */
     @Override
