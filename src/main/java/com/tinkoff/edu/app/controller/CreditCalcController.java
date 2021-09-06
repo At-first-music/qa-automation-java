@@ -36,7 +36,7 @@ public class CreditCalcController {
 
         try {
             if (creditRequest.getClientName().length() < 10 || creditRequest.getClientName().length() > 100) {
-                throw new WrongLengthOfClientName();
+                throw new RuntimeException();
             }
             log(creditRequest);
             return creditCalcService.createRequest(creditRequest);
