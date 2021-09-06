@@ -18,7 +18,7 @@ public class DefaultCreditCalcService implements CreditCalcService {
 
     @Override
     public CreditResponse getCreditResponseFromUuid(String uuid) {
-        return creditCalcRepository.getCreditResponseFromUuid(uuid);
+        return creditCalcRepository.getCreditResponseByUuid(uuid);
     }
 
     /**

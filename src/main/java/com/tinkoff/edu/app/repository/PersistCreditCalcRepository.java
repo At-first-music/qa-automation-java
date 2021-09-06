@@ -6,15 +6,15 @@ import com.tinkoff.edu.app.models.CreditResponse;
 public class PersistCreditCalcRepository implements CreditCalcRepository {
     private int requestId;
 
-    private CreditResponse[] saveOfCreditRequests;
+    private CreditResponse[] creditResponses;
 
     public PersistCreditCalcRepository() {
-        saveOfCreditRequests = new CreditResponse[100_000];
+        creditResponses = new CreditResponse[100_000];
     }
 
     @Override
-    public CreditResponse getCreditResponseFromUuid(String uuid) {
-        for (CreditResponse creditResponse : saveOfCreditRequests) {
+    public CreditResponse getCreditResponseByUuid(String uuid) {
+        for (CreditResponse creditResponse : creditResponses) {
             if (creditResponse != null && creditResponse.getCreditRequestId().toString().equals(uuid)) {
                 return creditResponse;
             }
@@ -26,7 +26,7 @@ public class PersistCreditCalcRepository implements CreditCalcRepository {
     public CreditResponse save(CreditRequest creditRequest) {
         CreditResponse creditResponse = new CreditResponse(++requestId, creditRequest, creditRequest.getCreditRequestId());
 
-        saveOfCreditRequests[requestId] = creditResponse;
+        creditResponses[requestId] = creditResponse;
         return creditResponse;
     }
 }
