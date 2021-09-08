@@ -32,6 +32,10 @@ public class CreditRequest {
         return clientType;
     }
 
+    public String getClientName() {
+        return clientName;
+    }
+
     public UUID getCreditRequestId() {
         return creditRequestId;
     }

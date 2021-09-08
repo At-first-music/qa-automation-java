@@ -1,10 +1,10 @@
 package com.tinkoff.edu.app.controller;
 
+import com.tinkoff.edu.app.exceptions.WrongLengthOfClientNameException;
 import com.tinkoff.edu.app.service.CreditCalcService;
 import com.tinkoff.edu.app.models.CreditRequest;
 import com.tinkoff.edu.app.models.CreditResponse;
 
-import static com.tinkoff.edu.app.enums.ResponseType.*;
 import static com.tinkoff.edu.app.logger.CreditCalcLogger.log;
 
 /**
@@ -25,16 +25,23 @@ public class CreditCalcController {
      * TODO Validates and logs request
      * @return creditRequest with ResponseType
      */
-    public CreditResponse createRequest(CreditRequest creditRequest) {
+    public CreditResponse createRequest(CreditRequest creditRequest) throws WrongLengthOfClientNameException {
         if (creditRequest == null || creditRequest.getClientType() == null) {
-            return new CreditResponse(creditRequest).setRequestId(-1).setResponseType(REJECTED);
+            throw  new IllegalArgumentException("creditRequest и clientType должны быть заполнены");
         }
 
         if (creditRequest.getAmount() <= 0 || creditRequest.getMonths() <= 0) {
-            return new CreditResponse(creditRequest).setRequestId(-1).setResponseType(REJECTED);
+            throw new IllegalArgumentException("amount и month должны быть больше 0");
         }
 
-        log(creditRequest);
-        return creditCalcService.createRequest(creditRequest);
+        try {
+            if (creditRequest.getClientName().length() < 10 || creditRequest.getClientName().length() > 100) {
+                throw new RuntimeException();
+            }
+            log(creditRequest);
+            return creditCalcService.createRequest(creditRequest);
+        } catch (RuntimeException lengthOfNameException) {
+            throw new WrongLengthOfClientNameException("Длина ФИО клиента должна быть в пределах от 10 до 100 символов", lengthOfNameException);
+        }
     }
 }

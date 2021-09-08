@@ -4,7 +4,6 @@ import com.tinkoff.edu.app.controller.CreditCalcController;
 import com.tinkoff.edu.app.enums.ResponseType;
 import com.tinkoff.edu.app.models.CreditRequest;
 import com.tinkoff.edu.app.models.CreditResponse;
-import com.tinkoff.edu.app.repository.DefaultCreditCalcRepository;
 import com.tinkoff.edu.app.repository.PersistCreditCalcRepository;
 import com.tinkoff.edu.app.service.DefaultCreditCalcService;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,8 +17,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AppTest {
     private CreditCalcController creditCalcController;
     private CreditRequest creditRequest;
-    private CreditResponse creditResponse;
     private String clientName;
+
+    private Exception thrownExceptionFunction(CreditRequest creditRequest) {
+        return assertThrows(
+                Exception.class,
+                () -> creditCalcController.createRequest(creditRequest)
+        );
+    }
 
     @BeforeEach
     public void init() {
@@ -113,8 +118,8 @@ public class AppTest {
     @Test
     @DisplayName("Проверка получения исключения, если creditRequest == null")
     public void shouldGetErrorWhenApplyNullRequest() {
-        // Then
-        assertEquals(-1, creditCalcController.createRequest(null).getRequestId(), "Заявка отклонена, requestId = -1");
+
+        assertTrue(thrownExceptionFunction(null).getMessage().contains("creditRequest и clientType должны быть заполнены"));
     }
 
     @Test
@@ -122,8 +127,7 @@ public class AppTest {
     public void shouldGetErrorWithIncorrectAmount() {
         creditRequest = new CreditRequest(PERSON, 12, 0, clientName);
 
-        // Then
-        assertEquals(-1, creditCalcController.createRequest(creditRequest).getRequestId(), "Заявка отклонена, requestId = -1");
+        assertTrue(thrownExceptionFunction(creditRequest).getMessage().contains("amount и month должны быть больше 0"));
     }
 
     @Test
@@ -131,17 +135,15 @@ public class AppTest {
     public void shouldGetErrorWhenApplyZeroOrNegativeMonthsRequest() {
         creditRequest = new CreditRequest(PERSON, 0, 100, clientName);
 
-        // Then
-        assertEquals(-1, creditCalcController.createRequest(creditRequest).getRequestId(), "Заявка отклонена, requestId = -1");
+        assertTrue(thrownExceptionFunction(creditRequest).getMessage().contains("amount и month должны быть больше 0"));
     }
 
     @Test
     @DisplayName("Проверка получения исключения, если clientType == null")
     public void shouldGetErrorWhenNullClientType() {
-        creditRequest = new CreditRequest(null, 10, 100, clientName);
+        creditRequest = new CreditRequest(null, 12, 100, clientName);
 
-        // Then
-        assertEquals(-1, creditCalcController.createRequest(creditRequest).getRequestId(), "Заявка отклонена, requestId = -1");
+        assertTrue(thrownExceptionFunction(creditRequest).getMessage().contains("creditRequest и clientType должны быть заполнены"));
     }
 
     @Test
@@ -203,5 +205,24 @@ public class AppTest {
 
         // Then
         assertEquals(new CreditResponse(creditRequest, 1).setResponseType(IN_PROGRESS), creditResponse);
+    }
+
+    @Test
+    @DisplayName("Проверка получения исключения, если длина clientName < 10")
+    public void shouldGetErrorWhenShortClientName() {
+        creditRequest = new CreditRequest(PERSON, 12, 100, "Test");
+
+        assertEquals("Длина ФИО клиента должна быть в пределах от 10 до 100 символов",
+                thrownExceptionFunction(creditRequest).getMessage());
+    }
+
+    @Test
+    @DisplayName("Проверка получения исключения, если длина clientName > 100")
+    public void shouldGetErrorWhenLongClientName() {
+        creditRequest = new CreditRequest(PERSON, 12, 100, "Test test very_long_Client_Name" +
+                "and this Name has some different surnames like some Great Britain's knights");
+
+        assertEquals("Длина ФИО клиента должна быть в пределах от 10 до 100 символов",
+                thrownExceptionFunction(creditRequest).getMessage());
     }
 }
