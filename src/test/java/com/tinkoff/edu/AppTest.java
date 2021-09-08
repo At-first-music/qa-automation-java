@@ -153,7 +153,6 @@ public class AppTest {
                 IllegalArgumentException.class,
                 () -> creditCalcController.createRequest(creditRequest)
         );
-        // Then
         assertTrue(thrownNullArgument.getMessage().contains("creditRequest и clientType должны быть заполнены"));
     }
 
