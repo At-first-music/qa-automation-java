@@ -226,7 +226,6 @@ public class AppTest {
                 WrongLengthOfClientName.class,
                 () -> creditCalcController.createRequest(creditRequest)
         );
-        // Then
         assertEquals("Длина ФИО клиента должна быть в пределах от 10 до 100 символов", thrown.getMessage());
     }
 
