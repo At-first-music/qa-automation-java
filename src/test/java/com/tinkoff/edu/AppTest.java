@@ -240,6 +240,6 @@ public class AppTest {
                 () -> creditCalcController.createRequest(creditRequest)
         );
         // Then
-        assertEquals("Длина ФИО клиента должна быть в пределах от 10 до 100 символов" ,thrown.getMessage());
+        assertEquals("Длина ФИО клиента должна быть в пределах от 10 до 100 символов", thrown.getMessage());
     }
 }
