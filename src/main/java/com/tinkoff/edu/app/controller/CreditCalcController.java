@@ -1,6 +1,6 @@
 package com.tinkoff.edu.app.controller;
 
-import com.tinkoff.edu.app.exceptions.WrongLengthOfClientName;
+import com.tinkoff.edu.app.exceptions.WrongLengthOfClientNameException;
 import com.tinkoff.edu.app.service.CreditCalcService;
 import com.tinkoff.edu.app.models.CreditRequest;
 import com.tinkoff.edu.app.models.CreditResponse;
@@ -25,7 +25,7 @@ public class CreditCalcController {
      * TODO Validates and logs request
      * @return creditRequest with ResponseType
      */
-    public CreditResponse createRequest(CreditRequest creditRequest) throws WrongLengthOfClientName {
+    public CreditResponse createRequest(CreditRequest creditRequest) throws WrongLengthOfClientNameException {
         if (creditRequest == null || creditRequest.getClientType() == null) {
             throw  new IllegalArgumentException("creditRequest и clientType должны быть заполнены");
         }
@@ -41,7 +41,7 @@ public class CreditCalcController {
             log(creditRequest);
             return creditCalcService.createRequest(creditRequest);
         } catch (RuntimeException lengthOfNameException) {
-            throw new WrongLengthOfClientName("Длина ФИО клиента должна быть в пределах от 10 до 100 символов", lengthOfNameException);
+            throw new WrongLengthOfClientNameException("Длина ФИО клиента должна быть в пределах от 10 до 100 символов", lengthOfNameException);
         }
     }
 }
