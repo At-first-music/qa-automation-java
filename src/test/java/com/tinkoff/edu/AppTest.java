@@ -129,7 +129,6 @@ public class AppTest {
                 IllegalArgumentException.class,
                 () -> creditCalcController.createRequest(creditRequest)
         );
-        // Then
         assertTrue(thrownIllegalArgument.getMessage().contains("amount и month должны быть больше 0"));
     }
 
