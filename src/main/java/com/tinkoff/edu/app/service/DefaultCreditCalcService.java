@@ -1,8 +1,11 @@
 package com.tinkoff.edu.app.service;
 
+import com.tinkoff.edu.app.enums.ClientType;
 import com.tinkoff.edu.app.models.CreditRequest;
 import com.tinkoff.edu.app.models.CreditResponse;
 import com.tinkoff.edu.app.repository.CreditCalcRepository;
+
+import java.util.List;
 
 import static com.tinkoff.edu.app.enums.ResponseType.*;
 
@@ -14,6 +17,11 @@ public class DefaultCreditCalcService implements CreditCalcService {
 
     public DefaultCreditCalcService(CreditCalcRepository creditCalcRepository) {
         this.creditCalcRepository = creditCalcRepository;
+    }
+
+    @Override
+    public List<CreditResponse> getCreditResponsesByClientType(ClientType clientType) {
+        return creditCalcRepository.getCreditResponsesByClientType(clientType);
     }
 
     @Override

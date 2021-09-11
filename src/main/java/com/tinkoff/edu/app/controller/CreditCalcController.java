@@ -1,9 +1,12 @@
 package com.tinkoff.edu.app.controller;
 
+import com.tinkoff.edu.app.enums.ClientType;
 import com.tinkoff.edu.app.exceptions.WrongLengthOfClientNameException;
 import com.tinkoff.edu.app.service.CreditCalcService;
 import com.tinkoff.edu.app.models.CreditRequest;
 import com.tinkoff.edu.app.models.CreditResponse;
+
+import java.util.List;
 
 import static com.tinkoff.edu.app.logger.CreditCalcLogger.log;
 
@@ -15,6 +18,10 @@ public class CreditCalcController {
 
     public CreditCalcController(CreditCalcService creditCalcService) {
         this.creditCalcService = creditCalcService;
+    }
+
+    public List<CreditResponse> getCreditResponsesByClientType(ClientType clientType) {
+        return creditCalcService.getCreditResponsesByClientType(clientType);
     }
 
     public CreditResponse getCreditResponseFromUuid(String uuid) {

@@ -4,7 +4,7 @@ import com.tinkoff.edu.app.controller.CreditCalcController;
 import com.tinkoff.edu.app.enums.ResponseType;
 import com.tinkoff.edu.app.models.CreditRequest;
 import com.tinkoff.edu.app.models.CreditResponse;
-import com.tinkoff.edu.app.repository.PersistCreditCalcRepository;
+import com.tinkoff.edu.app.repository.MapBackendCreditCalcRepository;
 import com.tinkoff.edu.app.service.DefaultCreditCalcService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +29,7 @@ public class AppTest {
     @BeforeEach
     public void init() {
         // Given
-        creditCalcController = new CreditCalcController(new DefaultCreditCalcService(new PersistCreditCalcRepository()));
+        creditCalcController = new CreditCalcController(new DefaultCreditCalcService(new MapBackendCreditCalcRepository()));
         clientName = "Petr Ilich Chaikovski";
     }
 
@@ -224,5 +224,17 @@ public class AppTest {
 
         assertEquals("Длина ФИО клиента должна быть в пределах от 10 до 100 символов",
                 thrownExceptionFunction(creditRequest).getMessage());
+    }
+
+    @Test
+    @DisplayName("Проверка фильтрации creditResponses по clientType")
+    public void shouldFilerCreditResponsesByClientType() {
+        creditCalcController.createRequest(new CreditRequest(PERSON, 12, 10_000, clientName));
+        creditCalcController.createRequest(new CreditRequest(PERSON, 12, 10_000, clientName));
+        creditCalcController.createRequest(new CreditRequest(OOO, 11, 10_100, clientName));
+        creditCalcController.createRequest(new CreditRequest(PERSON, 12, 10_000, clientName));
+        creditCalcController.createRequest(new CreditRequest(OOO, 11, 10_100, clientName));
+
+        assertEquals(2, creditCalcController.getCreditResponsesByClientType(OOO).size());
     }
 }
