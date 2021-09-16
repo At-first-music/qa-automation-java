@@ -53,7 +53,6 @@ public class CreditResponse {
         return creditRequest;
     }
 
-
     @Override
     public String toString() {
         return "CreditResponse {" +

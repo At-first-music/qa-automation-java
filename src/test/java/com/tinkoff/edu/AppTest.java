@@ -229,8 +229,6 @@ public class AppTest {
     @Test
     @DisplayName("Проверка фильтрации creditResponses по clientType")
     public void shouldFilerCreditResponsesByClientType() {
-        creditCalcController.createRequest(new CreditRequest(PERSON, 12, 10_000, clientName));
-        creditCalcController.createRequest(new CreditRequest(PERSON, 12, 10_000, clientName));
         creditCalcController.createRequest(new CreditRequest(OOO, 11, 10_100, clientName));
         creditCalcController.createRequest(new CreditRequest(PERSON, 12, 10_000, clientName));
         creditCalcController.createRequest(new CreditRequest(OOO, 11, 10_100, clientName));
