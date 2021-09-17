@@ -6,6 +6,7 @@ import com.tinkoff.edu.app.models.CreditResponse;
 import com.tinkoff.edu.app.repository.CreditCalcRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.tinkoff.edu.app.enums.ResponseType.*;
 
@@ -21,7 +22,9 @@ public class DefaultCreditCalcService implements CreditCalcService {
 
     @Override
     public List<CreditResponse> getCreditResponsesByClientType(ClientType clientType) {
-        return creditCalcRepository.getCreditResponsesByClientType(clientType);
+        return CreditCalcRepository.mapOfCreditResponses.values().stream()
+                .filter(creditResponse -> creditResponse.getCreditRequest().getClientType().equals(clientType))
+                .collect(Collectors.toList());
     }
 
     @Override
