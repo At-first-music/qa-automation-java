@@ -49,6 +49,10 @@ public class CreditResponse {
         return creditRequestId;
     }
 
+    public CreditRequest getCreditRequest() {
+        return creditRequest;
+    }
+
     @Override
     public String toString() {
         return "CreditResponse {" +
