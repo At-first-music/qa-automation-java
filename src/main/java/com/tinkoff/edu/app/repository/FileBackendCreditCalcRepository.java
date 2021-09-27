@@ -37,14 +37,14 @@ public class FileBackendCreditCalcRepository implements CreditCalcRepository {
     public CreditResponse save(CreditRequest creditRequest) {
         CreditResponse creditResponse = new CreditResponse(++requestId, creditRequest, creditRequest.getCreditRequestId()).setResponseType(CONFIRM_REQUEST);
         try {
-            Files.write(fileWithCreditResponses.toPath(),
-                    List.of(creditResponse.getCreditRequestId().toString()+","+
-                            creditResponse.getRequestId()+","+
-                            creditResponse.getResponseType().toString()+","+
-                            creditRequest.getClientType().toString()+","+
-                            creditRequest.getMonths()+","+
-                            creditRequest.getAmount()+","+
-                            creditRequest.getClientName()), CREATE, APPEND, WRITE);
+            Files.writeString(fileWithCreditResponses.toPath(),
+                    creditResponse.getCreditRequestId().toString() + "," +
+                            creditResponse.getRequestId() + "," +
+                            creditResponse.getResponseType().toString() + "," +
+                            creditRequest.getClientType().toString() + "," +
+                            creditRequest.getMonths() + "," +
+                            creditRequest.getAmount() + "," +
+                            creditRequest.getClientName(), CREATE, APPEND, WRITE);
         } catch (IOException e) {
             e.printStackTrace();
         }
