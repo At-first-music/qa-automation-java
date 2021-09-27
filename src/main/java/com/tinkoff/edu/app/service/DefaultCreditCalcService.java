@@ -24,10 +24,11 @@ public class DefaultCreditCalcService implements CreditCalcService {
 
     @Override
     public List<String> getCreditResponsesByClientType(ClientType clientType) throws IOException {
-        return Files.lines(CreditCalcRepository.fileWithCreditResponses.toPath()).filter(line-> line.contains(clientType.toString())).collect(Collectors.toList());
-//        return CreditCalcRepository.mapOfCreditResponses.values().stream()
-//                .filter(creditResponse -> creditResponse.getCreditRequest().getClientType().equals(clientType))
-//                .collect(Collectors.toList());
+        return Files.lines(CreditCalcRepository
+                .fileWithCreditResponses
+                .toPath())
+                .filter(line-> line.contains(clientType.toString()))
+                .collect(Collectors.toList());
     }
 
     @Override
