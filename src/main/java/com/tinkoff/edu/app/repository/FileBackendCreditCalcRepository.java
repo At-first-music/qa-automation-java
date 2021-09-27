@@ -5,7 +5,6 @@ import com.tinkoff.edu.app.enums.ResponseType;
 import com.tinkoff.edu.app.models.CreditRequest;
 import com.tinkoff.edu.app.models.CreditResponse;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
@@ -17,7 +16,6 @@ import static java.nio.file.StandardOpenOption.*;
 
 public class FileBackendCreditCalcRepository implements CreditCalcRepository {
     private int requestId;
-    private File fileWithCreditResponses = new File("FileWithCreditResponses.txt");
 
     @Override
     public CreditResponse getCreditResponseByUuid(String uuid) throws IOException {
@@ -44,7 +42,7 @@ public class FileBackendCreditCalcRepository implements CreditCalcRepository {
                             creditRequest.getClientType().toString() + "," +
                             creditRequest.getMonths() + "," +
                             creditRequest.getAmount() + "," +
-                            creditRequest.getClientName(), CREATE, APPEND, WRITE);
+                            creditRequest.getClientName() + "\n", CREATE, APPEND, WRITE);
         } catch (IOException e) {
             e.printStackTrace();
         }
