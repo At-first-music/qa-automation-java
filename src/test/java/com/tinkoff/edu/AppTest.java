@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.UUID;
 
 import static com.tinkoff.edu.app.enums.ClientType.*;
 import static com.tinkoff.edu.app.enums.ResponseType.*;
@@ -170,7 +171,7 @@ public class AppTest {
         CreditResponse creditResponse = creditCalcController.getCreditResponseFromUuid(firstCreditRequest);
 
         // Then
-        assertEquals(new CreditResponse(creditRequest, 1).setResponseType(CONFIRM_REQUEST), creditResponse);
+        assertEquals(new CreditResponse(creditRequest, 1).setResponseType(CONFIRM_REQUEST).setCreditRequestId(UUID.fromString(firstCreditRequest)), creditResponse);
     }
 
     @Test
@@ -234,14 +235,14 @@ public class AppTest {
     @Test
     @DisplayName("Проверка фильтрации creditResponses по clientType")
     public void shouldFilerCreditResponsesByClientType() throws IOException {
+        creditCalcController.createRequest(new CreditRequest(OOO, 11, 10_100, clientName));
+        creditCalcController.createRequest(new CreditRequest(PERSON, 12, 10_000, clientName));
+        creditCalcController.createRequest(new CreditRequest(OOO, 11, 10_100, clientName));
         int sizeOfAllLines = Files.readAllLines(CreditCalcRepository.fileWithCreditResponses.toPath()).size();
         int sizeOfFilteredResponses = (int) Files.lines(
                 CreditCalcRepository.fileWithCreditResponses.toPath())
                 .filter(line -> line.contains(PERSON.toString()) || line.contains(IP.toString()))
                 .count();
-        creditCalcController.createRequest(new CreditRequest(OOO, 11, 10_100, clientName));
-        creditCalcController.createRequest(new CreditRequest(PERSON, 12, 10_000, clientName));
-        creditCalcController.createRequest(new CreditRequest(OOO, 11, 10_100, clientName));
 
         assertEquals((sizeOfAllLines - sizeOfFilteredResponses), creditCalcController.getCreditResponsesByClientType(OOO).size());
     }

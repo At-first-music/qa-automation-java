@@ -16,6 +16,7 @@ import static java.nio.file.StandardOpenOption.*;
 
 public class FileBackendCreditCalcRepository implements CreditCalcRepository {
     private int requestId;
+    private UUID creditRequestId;
 
     @Override
     public CreditResponse getCreditResponseByUuid(String uuid) throws IOException {
@@ -33,7 +34,8 @@ public class FileBackendCreditCalcRepository implements CreditCalcRepository {
 
     @Override
     public CreditResponse save(CreditRequest creditRequest) {
-        CreditResponse creditResponse = new CreditResponse(++requestId, creditRequest, creditRequest.getCreditRequestId()).setResponseType(CONFIRM_REQUEST);
+        creditRequestId = UUID.randomUUID();
+        CreditResponse creditResponse = new CreditResponse(++requestId, creditRequest, creditRequestId).setResponseType(CONFIRM_REQUEST);
         try {
             Files.writeString(fileWithCreditResponses.toPath(),
                     creditResponse.getCreditRequestId().toString() + "," +

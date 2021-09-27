@@ -3,6 +3,8 @@ package com.tinkoff.edu.app.repository;
 import com.tinkoff.edu.app.models.CreditRequest;
 import com.tinkoff.edu.app.models.CreditResponse;
 
+import java.util.UUID;
+
 public class PersistCreditCalcRepository implements CreditCalcRepository {
     private int requestId;
 
@@ -24,7 +26,8 @@ public class PersistCreditCalcRepository implements CreditCalcRepository {
 
     @Override
     public CreditResponse save(CreditRequest creditRequest) {
-        CreditResponse creditResponse = new CreditResponse(++requestId, creditRequest, creditRequest.getCreditRequestId());
+        UUID creditRequestId = UUID.randomUUID();
+        CreditResponse creditResponse = new CreditResponse(++requestId, creditRequest, creditRequestId);
 
         creditResponses[requestId] = creditResponse;
         return creditResponse;
