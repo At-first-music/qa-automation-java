@@ -10,12 +10,6 @@ public class CreditResponse {
     private int requestId;
     private ResponseType responseType;
     private CreditRequest creditRequest;
-
-    public CreditResponse setCreditRequestId(UUID creditRequestId) {
-        this.creditRequestId = creditRequestId;
-        return this;
-    }
-
     private UUID creditRequestId;
 
     public CreditResponse(int requestId, CreditRequest creditRequest, UUID creditRequestId) {
@@ -53,6 +47,11 @@ public class CreditResponse {
 
     public UUID getCreditRequestId() {
         return creditRequestId;
+    }
+
+    public CreditResponse setCreditRequestId(UUID creditRequestId) {
+        this.creditRequestId = creditRequestId;
+        return this;
     }
 
     public CreditRequest getCreditRequest() {
