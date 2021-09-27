@@ -6,6 +6,7 @@ import com.tinkoff.edu.app.service.CreditCalcService;
 import com.tinkoff.edu.app.models.CreditRequest;
 import com.tinkoff.edu.app.models.CreditResponse;
 
+import java.io.IOException;
 import java.util.List;
 
 import static com.tinkoff.edu.app.logger.CreditCalcLogger.log;
@@ -24,7 +25,7 @@ public class CreditCalcController {
         return creditCalcService.getCreditResponsesByClientType(clientType);
     }
 
-    public CreditResponse getCreditResponseFromUuid(String uuid) {
+    public CreditResponse getCreditResponseFromUuid(String uuid) throws IOException {
         return creditCalcService.getCreditResponseFromUuid(uuid);
     }
 
@@ -47,7 +48,7 @@ public class CreditCalcController {
             }
             log(creditRequest);
             return creditCalcService.createRequest(creditRequest);
-        } catch (RuntimeException lengthOfNameException) {
+        } catch (RuntimeException | IOException lengthOfNameException) {
             throw new WrongLengthOfClientNameException("Длина ФИО клиента должна быть в пределах от 10 до 100 символов", lengthOfNameException);
         }
     }

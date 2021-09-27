@@ -5,6 +5,7 @@ import com.tinkoff.edu.app.models.CreditRequest;
 import com.tinkoff.edu.app.models.CreditResponse;
 import com.tinkoff.edu.app.repository.CreditCalcRepository;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +29,7 @@ public class DefaultCreditCalcService implements CreditCalcService {
     }
 
     @Override
-    public CreditResponse getCreditResponseFromUuid(String uuid) {
+    public CreditResponse getCreditResponseFromUuid(String uuid) throws IOException {
         return creditCalcRepository.getCreditResponseByUuid(uuid);
     }
 
@@ -37,7 +38,7 @@ public class DefaultCreditCalcService implements CreditCalcService {
      * @return creditRequest with ResponseType
      */
     @Override
-    public CreditResponse createRequest(CreditRequest creditRequest) {
+    public CreditResponse createRequest(CreditRequest creditRequest) throws IOException {
 
         switch (creditRequest.getClientType()) {
             case IP: return new CreditResponse(creditRequest).setResponseType(REJECTED);

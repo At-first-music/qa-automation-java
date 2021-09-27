@@ -4,11 +4,14 @@ import com.tinkoff.edu.app.controller.CreditCalcController;
 import com.tinkoff.edu.app.enums.ResponseType;
 import com.tinkoff.edu.app.models.CreditRequest;
 import com.tinkoff.edu.app.models.CreditResponse;
+import com.tinkoff.edu.app.repository.FileBackendCreditCalcRepository;
 import com.tinkoff.edu.app.repository.MapBackendCreditCalcRepository;
 import com.tinkoff.edu.app.service.DefaultCreditCalcService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
 
 import static com.tinkoff.edu.app.enums.ClientType.*;
 import static com.tinkoff.edu.app.enums.ResponseType.*;
@@ -29,7 +32,7 @@ public class AppTest {
     @BeforeEach
     public void init() {
         // Given
-        creditCalcController = new CreditCalcController(new DefaultCreditCalcService(new MapBackendCreditCalcRepository()));
+        creditCalcController = new CreditCalcController(new DefaultCreditCalcService(new FileBackendCreditCalcRepository()));
         clientName = "Petr Ilich Chaikovski";
     }
 
@@ -157,7 +160,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Проверка получения заявки по её UUID creditRequestId")
-    public void shouldGetCreditRequestFromUUid() {
+    public void shouldGetCreditRequestFromUUid() throws IOException {
         // When
         creditRequest = new CreditRequest(PERSON, 12, 10_000, clientName);
 
@@ -170,7 +173,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Проверка получения заявки по её UUID creditRequestId")
-    public void shouldGetResponseTypeOfCreditRequestFromUUid() {
+    public void shouldGetResponseTypeOfCreditRequestFromUUid() throws IOException {
         // When
         creditRequest = new CreditRequest(PERSON, 12, 10_000, clientName);
 
@@ -183,7 +186,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Проверка изменения статуса заявки по её UUID creditRequestId")
-    public void shouldChangeCreditRequestResponseTypeToRejectedFromUUid() {
+    public void shouldChangeCreditRequestResponseTypeToRejectedFromUUid() throws IOException {
         // When
         creditRequest = new CreditRequest(PERSON, 12, 10_000, clientName);
 
@@ -191,12 +194,12 @@ public class AppTest {
         CreditResponse creditResponse = creditCalcController.getCreditResponseFromUuid(firstCreditRequest).setResponseType(REJECTED);
 
         // Then
-        assertEquals(new CreditResponse(creditRequest, 1).setResponseType(REJECTED), creditResponse);
+        assertEquals(REJECTED, creditResponse.getResponseType());
     }
 
     @Test
     @DisplayName("Проверка изменения статуса заявки по её UUID creditRequestId")
-    public void shouldChangeCreditRequestResponseTypeToInProgressFromUUid() {
+    public void shouldChangeCreditRequestResponseTypeToInProgressFromUUid() throws IOException {
         // When
         creditRequest = new CreditRequest(PERSON, 12, 10_000, clientName);
 
@@ -204,7 +207,7 @@ public class AppTest {
         CreditResponse creditResponse = creditCalcController.getCreditResponseFromUuid(firstCreditRequest).setResponseType(IN_PROGRESS);
 
         // Then
-        assertEquals(new CreditResponse(creditRequest, 1).setResponseType(IN_PROGRESS), creditResponse);
+        assertEquals(IN_PROGRESS, creditResponse.getResponseType());
     }
 
     @Test
