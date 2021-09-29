@@ -21,7 +21,7 @@ public class CreditCalcController {
         this.creditCalcService = creditCalcService;
     }
 
-    public List<String> getCreditResponsesByClientType(ClientType clientType) throws IOException {
+    public List<CreditResponse> getCreditResponsesByClientType(ClientType clientType) throws IOException {
         return creditCalcService.getCreditResponsesByClientType(clientType);
     }
 

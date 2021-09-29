@@ -238,9 +238,9 @@ public class AppTest {
         creditCalcController.createRequest(new CreditRequest(OOO, 11, 10_100, clientName));
         creditCalcController.createRequest(new CreditRequest(PERSON, 12, 10_000, clientName));
         creditCalcController.createRequest(new CreditRequest(OOO, 11, 10_100, clientName));
-        int sizeOfAllLines = Files.readAllLines(CreditCalcRepository.fileWithCreditResponses.toPath()).size();
+        int sizeOfAllLines = Files.readAllLines(FileBackendCreditCalcRepository.fileWithCreditResponses.toPath()).size();
         int sizeOfFilteredResponses = (int) Files.lines(
-                CreditCalcRepository.fileWithCreditResponses.toPath())
+                FileBackendCreditCalcRepository.fileWithCreditResponses.toPath())
                 .filter(line -> line.contains(PERSON.toString()) || line.contains(IP.toString()))
                 .count();
 

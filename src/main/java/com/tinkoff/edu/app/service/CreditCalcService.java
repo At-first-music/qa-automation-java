@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface CreditCalcService {
-    List<String> getCreditResponsesByClientType(ClientType clientType) throws IOException;
+    List<CreditResponse> getCreditResponsesByClientType(ClientType clientType) throws IOException;
     CreditResponse getCreditResponseFromUuid(String uuid) throws IOException;
     CreditResponse createRequest(CreditRequest creditRequest) throws IOException;
 }
