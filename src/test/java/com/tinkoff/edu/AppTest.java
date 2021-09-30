@@ -4,11 +4,17 @@ import com.tinkoff.edu.app.controller.CreditCalcController;
 import com.tinkoff.edu.app.enums.ResponseType;
 import com.tinkoff.edu.app.models.CreditRequest;
 import com.tinkoff.edu.app.models.CreditResponse;
+import com.tinkoff.edu.app.repository.CreditCalcRepository;
+import com.tinkoff.edu.app.repository.FileBackendCreditCalcRepository;
 import com.tinkoff.edu.app.repository.MapBackendCreditCalcRepository;
 import com.tinkoff.edu.app.service.DefaultCreditCalcService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.UUID;
 
 import static com.tinkoff.edu.app.enums.ClientType.*;
 import static com.tinkoff.edu.app.enums.ResponseType.*;
@@ -29,7 +35,7 @@ public class AppTest {
     @BeforeEach
     public void init() {
         // Given
-        creditCalcController = new CreditCalcController(new DefaultCreditCalcService(new MapBackendCreditCalcRepository()));
+        creditCalcController = new CreditCalcController(new DefaultCreditCalcService(new FileBackendCreditCalcRepository()));
         clientName = "Petr Ilich Chaikovski";
     }
 
@@ -44,7 +50,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Проверка увеличения requestId при нескольких запросах")
-    public void  shouldGetIncrementIdWithSeveralCalls() {
+    public void shouldGetIncrementIdWithSeveralCalls() {
         creditRequest = new CreditRequest(PERSON, 10, 100, clientName);
         creditCalcController.createRequest(creditRequest);
 
@@ -157,7 +163,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Проверка получения заявки по её UUID creditRequestId")
-    public void shouldGetCreditRequestFromUUid() {
+    public void shouldGetCreditRequestFromUUid() throws IOException {
         // When
         creditRequest = new CreditRequest(PERSON, 12, 10_000, clientName);
 
@@ -165,12 +171,12 @@ public class AppTest {
         CreditResponse creditResponse = creditCalcController.getCreditResponseFromUuid(firstCreditRequest);
 
         // Then
-        assertEquals(new CreditResponse(creditRequest, 1).setResponseType(CONFIRM_REQUEST), creditResponse);
+        assertEquals(new CreditResponse(creditRequest, 1).setResponseType(CONFIRM_REQUEST).setCreditRequestId(UUID.fromString(firstCreditRequest)), creditResponse);
     }
 
     @Test
     @DisplayName("Проверка получения заявки по её UUID creditRequestId")
-    public void shouldGetResponseTypeOfCreditRequestFromUUid() {
+    public void shouldGetResponseTypeOfCreditRequestFromUUid() throws IOException {
         // When
         creditRequest = new CreditRequest(PERSON, 12, 10_000, clientName);
 
@@ -183,7 +189,7 @@ public class AppTest {
 
     @Test
     @DisplayName("Проверка изменения статуса заявки по её UUID creditRequestId")
-    public void shouldChangeCreditRequestResponseTypeToRejectedFromUUid() {
+    public void shouldChangeCreditRequestResponseTypeToRejectedFromUUid() throws IOException {
         // When
         creditRequest = new CreditRequest(PERSON, 12, 10_000, clientName);
 
@@ -191,12 +197,12 @@ public class AppTest {
         CreditResponse creditResponse = creditCalcController.getCreditResponseFromUuid(firstCreditRequest).setResponseType(REJECTED);
 
         // Then
-        assertEquals(new CreditResponse(creditRequest, 1).setResponseType(REJECTED), creditResponse);
+        assertEquals(REJECTED, creditResponse.getResponseType());
     }
 
     @Test
     @DisplayName("Проверка изменения статуса заявки по её UUID creditRequestId")
-    public void shouldChangeCreditRequestResponseTypeToInProgressFromUUid() {
+    public void shouldChangeCreditRequestResponseTypeToInProgressFromUUid() throws IOException {
         // When
         creditRequest = new CreditRequest(PERSON, 12, 10_000, clientName);
 
@@ -204,7 +210,7 @@ public class AppTest {
         CreditResponse creditResponse = creditCalcController.getCreditResponseFromUuid(firstCreditRequest).setResponseType(IN_PROGRESS);
 
         // Then
-        assertEquals(new CreditResponse(creditRequest, 1).setResponseType(IN_PROGRESS), creditResponse);
+        assertEquals(IN_PROGRESS, creditResponse.getResponseType());
     }
 
     @Test
@@ -228,11 +234,16 @@ public class AppTest {
 
     @Test
     @DisplayName("Проверка фильтрации creditResponses по clientType")
-    public void shouldFilerCreditResponsesByClientType() {
+    public void shouldFilerCreditResponsesByClientType() throws IOException {
         creditCalcController.createRequest(new CreditRequest(OOO, 11, 10_100, clientName));
         creditCalcController.createRequest(new CreditRequest(PERSON, 12, 10_000, clientName));
         creditCalcController.createRequest(new CreditRequest(OOO, 11, 10_100, clientName));
+        int sizeOfAllLines = Files.readAllLines(FileBackendCreditCalcRepository.fileWithCreditResponses.toPath()).size();
+        int sizeOfFilteredResponses = (int) Files.lines(
+                FileBackendCreditCalcRepository.fileWithCreditResponses.toPath())
+                .filter(line -> line.contains(PERSON.toString()) || line.contains(IP.toString()))
+                .count();
 
-        assertEquals(2, creditCalcController.getCreditResponsesByClientType(OOO).size());
+        assertEquals((sizeOfAllLines - sizeOfFilteredResponses), creditCalcController.getCreditResponsesByClientType(OOO).size());
     }
 }

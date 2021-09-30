@@ -49,6 +49,11 @@ public class CreditResponse {
         return creditRequestId;
     }
 
+    public CreditResponse setCreditRequestId(UUID creditRequestId) {
+        this.creditRequestId = creditRequestId;
+        return this;
+    }
+
     public CreditRequest getCreditRequest() {
         return creditRequest;
     }
